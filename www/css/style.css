@@ -1,0 +1,9 @@
+.col {
+  border: 1px solid #ccc;
+  background: #fff;
+  overflow: hidden;
+  padding: 10px;
+  color: #000;
+  font-size:17px;
+  margin: 10px 8px 8px 8px;
+}

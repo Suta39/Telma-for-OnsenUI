@@ -1,0 +1,21 @@
+<ons-page>
+  <ons-toolbar fixed-style modifier="material noshadow" id="toolbar">
+    <div class="left">
+      <ons-toolbar-button onclick="menuOpen()" modifier="material">
+        <ons-icon icon="md-menu"></ons-icon>
+      </ons-toolbar-button>
+    </div>
+    <div class="center">
+      Main
+    </div>
+    <div class="right">
+      <ons-toolbar-button modifier="material" id="alert-block">
+        <ons-icon icon="ion-android-notifications" onclick="alertMsg(this)"></ons-icon>
+      </ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+  <ons-tabbar position="top">
+    <ons-tab page="bbs.html" label="近所でおはなし" active="true"></ons-tab>
+    <ons-tab page="rent.html" label="レンタル広場"></ons-tab>
+  </ons-tabbar>
+</ons-page>
