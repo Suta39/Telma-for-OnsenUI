@@ -7,3 +7,20 @@
   font-size:17px;
   margin: 10px 8px 8px 8px;
 }
+#location-regi #name{
+  margin:20px 0px 10px 0px;
+}
+/*
+.ios-bg{
+  background-color:rgba(24,103,194,0.81);
+}
+*/
+#location-list .list__item{
+  height: 20px;
+}
+ul{
+  list-style-type: none;
+}
+li{
+  margin:3px 0px;
+}

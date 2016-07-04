@@ -1,0 +1,71 @@
+<ons-page>
+<style>
+.alert-list div{
+  padding:5px 0px;
+}
+/*
+button{
+  padding:3px 10px;
+}
+*/
+</style>
+  <ons-toolbar id="toolbar">
+    <div class="left">
+      <ons-back-button></ons-back-button>
+    </div>
+    <div class="center">
+      Alert-Page
+    </div>
+  </ons-toolbar>
+  <select class="form-control">
+    <option>全ての通知を表示</option>
+    <option>貸し借りの通知のみ表示</option>
+    <option>掲示板の通知のみ表示</option>
+  </select>
+  <ons-list id="alert-lists">
+    <ons-list-item style="" class="alert-list" onclick="slideOpen('alert-content.html')">
+      <span class="keijiban_id" id="0" hidden></span>
+      <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
+      <div class="center"><span class="list__item__title">Cutest kitty</span>
+      <span class="list__item__subtitle">On the Internet</span></div>
+      <div style="margin:5px 10px 0px 0px" class="right">
+      <button type="button" class="btn agreeBtn btn-secondary" onclick="agreeBtn(0)">
+        未承認
+      </button>
+      </div>
+    </ons-list-item>
+    <ons-list-item style="" class="alert-list" onclick="slideOpen('alert-content.html')">
+      <span class="keijiban_id" id="0" hidden></span>
+      <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
+      <div class="center"><span class="list__item__title">Cutest kitty</span>
+      <span class="list__item__subtitle">On the Internet</span></div>
+      <div style="margin:5px 10px 0px 0px" class="right">
+      <button type="button" class="btn agreeBtn btn-secondary" onclick="agreeBtn(1)">
+        未承認
+      </button>
+      </div>
+    </ons-list-item>
+    <ons-list-item style="" class="alert-list" onclick="slideOpen('alert-content.html')">
+      <span class="keijiban_id" id="0" hidden></span>
+      <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
+      <div class="center"><span class="list__item__title">Cutest kitty</span>
+      <span class="list__item__subtitle">On the Internet</span></div>
+      <div style="margin:5px 10px 0px 0px" class="right">
+      <button type="button" class="btn agreeBtn btn-secondary" onclick="agreeBtn(2)">
+        未承認
+      </button>
+      </div>
+    </ons-list-item>
+    <ons-list-item style="" class="alert-list" onclick="slideOpen('alert-content.html')">
+      <span class="keijiban_id" id="0" hidden></span>
+      <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
+      <div class="center"><span class="list__item__title">Cutest kitty</span>
+      <span class="list__item__subtitle">On the Internet</span></div>
+      <div style="margin:5px 10px 0px 0px" class="right">
+      <button type="button" class="btn agreeBtn btn-secondary" onclick="agreeBtn(3)">
+        未承認
+      </button>
+      </div>
+    </ons-list-item>
+  </ons-list>
+</ons-page>

@@ -3,21 +3,23 @@
         "mobi.monaca.plugins.Monaca"
     ],
     "framework_version": "3.5",
-    "xcode_version": "6",
+    "xcode_version": null,
     "cordova_version": "5.2",
     "plugin_settings": [],
     "external_plugins": [
         "cordova-plugin-whitelist@1.0.0",
         "cordova-plugin-splashscreen@2.1.0"
     ],
-    "title-ja": "Telma for OnsenUI v2",
+    "title-ja": "",
     "title-en": "",
     "description-ja": "",
     "description-en": "",
     "category": "User Template",
     "platform": [
         "android",
-        "winrt"
+        "ios",
+        "winrt",
+        "chrome"
     ],
-    "name": "generated-1466529466-5763eb14fd17344f3d116c91"
+    "name": "generated-1467636508-5778abff7e21932027b82584"
 }

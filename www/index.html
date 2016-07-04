@@ -4,41 +4,53 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    
     <script src="components/loader.js"></script>
+    <script src="lib/jquery/jquery-2.1.4.min.js"></script>
     <script src="lib/onsenui/js/onsenui.js"></script>
-    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="lib/jquery/jquery.switch.js"></script>
+    <script src="lib/bootstrap/bootstrap.js"></script>
+    <script src="js/bbs.js"></script>
+    <script src="js/rent.js"></script>
+    <script src="js/login.js"></script>
     <script src="js/app.js"></script>
+		<!-- Tuyen san -->
+  	<script type="text/javascript" src="lib/onsenui/js/angular.js"></script>
+  	<script src="lib/onsenui/js/angular-onsenui.js"></script>
+  	<script src="lib/socket.io-client/socket.io.js"></script>
+		<!--------------->
 
     <link rel="stylesheet" href="components/loader.css">
     <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
     <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+    <link rel="stylesheet" href="lib/jquery/jquery.switch.css">
+    <link rel="stylesheet" href="lib/jquery/jquery.switch.theme.css">
+    <link rel="stylesheet" href="lib/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+		<!-- Tuyen san -->
+	  <link rel="stylesheet" href="css/font-awesome.css">
+	  <link rel="stylesheet" href="css/style-chat.css">
+	  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+		<!--------------->
 
     <script>
-      //ons.bootstrap()
-      ons.ready(function () {
-        console.log("Onsen UI is ready!");
-      });
-      function menuOpen() {
-        document.querySelector('#mySplitter').left.toggle();
-      }
-      function openSlide(page) {
-        $("#content").load(page);
-        document.querySelector('#mySplitter').left.toggle();
-      };
-      /*
-       window.fn.load = function(page) {
-       var content = document.getElementById('content');
-       var menu = document.getElementById('menu');
-       content.load(page)
-       .then(menu.close.bind(menu));
-       };
-       */
+    ons.bootstrap()
+    ons.ready(function () {
+      console.log("Onsen UI is ready!");
+    });
+    /*
+     window.fn.load = function(page) {
+     var content = document.getElementById('content');
+     var menu = document.getElementById('menu');
+     content.load(page)
+     .then(menu.close.bind(menu));
+     };
+     */
     </script>
   </head>
   <body>
-  
-  <ons-navigator id="myNavigator" page="splitter.html">
+  <ons-navigator id="myNavigator" page="page/login/login.html">
   </ons-navigator>
   
   <ons-template id="splitter.html">
@@ -49,11 +61,11 @@
             <ons-list-item onclick="openSlide('page/home.html')" tappable>
               Home
             </ons-list-item>
-            <ons-list-item onclick="openSlide('page/bbs-write.html')" tappable>
+            <ons-list-item onclick="openSlide('page/bbs/bbs-write.html')" tappable>
               Settings
             </ons-list-item>
-            <ons-list-item onclick="openSlide('about.html')" tappable>
-              About
+            <ons-list-item onclick="openSlide('chat.html')" tappable>
+              Chat
             </ons-list-item>
           </ons-list>
         </ons-page>
@@ -74,82 +86,109 @@
   </ons-popover>
   
   <!-- Alert ---------------->
-  <ons-popover  direction="right down" id="alert-msg" cancelable>
+  <ons-popover id="alert-msg" cancelable>
     <ons-list>
       <ons-list-item class="list__item--tappable list__item__line-height" modifier="chevron">Numbers</ons-list-item>
       <ons-list-item class="list__item--tappable list__item__line-height" modifier="chevron">One</ons-list-item>
       <ons-list-item class="list__item--tappable list__item__line-height" modifier="chevron">Two</ons-list-item>
-      <ons-list-item class="list__item--tappable list__item__line-height" modifier="chevron">Three</ons-list-item>
-      <ons-list-item class="list__item--tappable list__item__line-height" modifier="chevron">Four</ons-list-item>
-      <ons-list-item class="list__item--tappable list__item__line-height" modifier="chevron">Five</ons-list-item>
-      <ons-list-item class="list__item--tappable list__item__line-height" modifier="chevron">Six</ons-list-item>
     </ons-list>
   </ons-popover>
   <!------------------------->
   
   <ons-template id="bbs.html">
-    <ons-page>
-      <ons-pull-hook id="pull-hook">
+    <ons-page><!--
+      <ons-pull-hook threshold-height="220px" height="180px" id="refresh">
+        Pull to refresh
+      </ons-pull-hook>-->
+
+      <ons-pull-hook id="onRefresh">
         Pull to refresh
       </ons-pull-hook>
-      <ons-list modifier="material">
-        <ons-button align="right" id="btn1" onclick="showPopover(this)">page</ons-button>
-        <ons-list-item  onclick="slideOpen('bbs-content.html')">
+      <ons-button align="right" id="btn1" onclick="showPopover(this)">page1</ons-button>
+      <ons-button align="right" id="btn2" onclick="bbsList()">page2</ons-button>
+      <ons-button align="right" id="btn3" onclick="returnLocation()">page3</ons-button>
+      <ons-button align="right" id="btn4" onclick="bbsContent()">page4</ons-button>
+      <ons-list id="bbs-lists">
+        <ons-list-item class="bbs-list" onclick="bbsContent(this)">
+          <span class="keijiban_id" id="0" hidden></span>
           <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
-          <div class="center"><span class="list__item__title">Cutest kitty</span>
-          <span class="list__item__subtitle">On the Internet</span></div>
+          <div class="center"><span class="list__item__title">8月10日　夏まつり開催</span>
+          <span class="list__item__subtitle">場所ーーーーー　時間ーーーーーー</span></div>
         </ons-list-item>
-        <ons-list-item>
+        <ons-list-item class="bbs-list" onclick="bbsContent(this)">
+          <span class="keijiban_id" id="0" hidden></span>
           <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
-          <div class="center"><span class="list__item__title">Cutest kitty</span>
-          <span class="list__item__subtitle">On the Internet</span></div>
+          <div class="center"><span class="list__item__title">落とし物のお知らせ</span>
+          <span class="list__item__subtitle">物ーーーーーー　場所ーーーーー　拾った時間ーーーーーー</span></div>
         </ons-list-item>
-        <ons-list-item>
+        <ons-list-item class="bbs-list" onclick="bbsContent(this)">
+          <span class="keijiban_id" id="0" hidden></span>
           <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
-          <div class="center"><span class="list__item__title">Cutest kitty</span>
-          <span class="list__item__subtitle">On the Internet</span></div>
+          <div class="center"><span class="list__item__title">不審者情報</span>
+          <span class="list__item__subtitle">時間ーーー　場所ーーー　特徴ーーー/span></div>
         </ons-list-item>
-        <ons-list-item>
+        <ons-list-item class="bbs-list" onclick="bbsContent(this)">
+          <span class="keijiban_id" id="0" hidden></span>
           <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
-          <div class="center"><span class="list__item__title">Cutest kitty</span>
-          <span class="list__item__subtitle">On the Internet</span></div>
-        </ons-list-item>
-        <ons-list-item>
-          <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
-          <div class="center"><span class="list__item__title">Cutest kitty</span>
-          <span class="list__item__subtitle">On the Internet</span></div>
+          <div class="center"><span class="list__item__title">落とし物のお知らせ</span>
+          <span class="list__item__subtitle">時間ーーー　場所ーーー　特徴ーーー</span></div>
         </ons-list-item>
       </ons-list>
     
       <ons-speed-dial position="bottom right" direction="left">
-        <ons-fab>
+        <ons-fab> 
           <ons-icon icon="md-plus"></ons-icon>
         </ons-fab>
-        <ons-speed-dial-item class="wirte-ic" onclick="popOpen('bbs-write.html')">
+        <ons-speed-dial-item class="wirte-ic" onclick="popOpen('page/bbs/bbs-write.html')">
           <ons-icon icon="ion-edit" ></ons-icon>
         </ons-speed-dial-item>
-        <ons-speed-dial-item class="book-ic"  onclick="openDialog('#regi')">
+        <ons-speed-dial-item class="book-ic"  onclick="openDialog('location-list')">
           <ons-icon icon="ion-ios-bookmarks"></ons-icon>
         </ons-speed-dial-item>
-        <ons-speed-dial-item class="location-ic" onclick="openDialog('#regi')">
+        <ons-speed-dial-item class="location-ic" onclick="openDialog('location-regi')">
           <ons-icon icon="ion-android-pin"></ons-icon>
         </ons-speed-dial-item>
       </ons-speed-dial>
     </ons-page>
   </ons-template>
   
+  <ons-list-item class="bbs-list" onclick="bbsContent(this)">
+    <span class="keijiban_id" id="0" hidden></span>
+    <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
+    <div class="center"><span class="list__item__title">Cutest kitty</span>
+    <span class="list__item__subtitle">On the Internet</span></div>
+  </ons-list-item>
+  
   <ons-template id="rent.html">
     <ons-page>
-      <ons-list modifier="material">
-        <ons-list-item>Item 1</ons-list-item>
-        <ons-list-item>Item 2</ons-list-item>
-        <ons-list-item>Item 3</ons-list-item>
-        <ons-list-item>Item 4</ons-list-item>
-        <ons-list-item>Item 5</ons-list-item>
-        <ons-list-item>Item 6</ons-list-item>
+      <ons-list id="rent-lists">
+        <ons-list-item class="rent-list" onclick="rentContent()">
+          <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
+          <div class="center"><span class="list__item__title">Cutest kitty</span>
+          <span class="list__item__subtitle">On the Internet</span></div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
+          <div class="center"><span class="list__item__title">Cutest kitty</span>
+          <span class="list__item__subtitle">On the Internet</span></div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
+          <div class="center"><span class="list__item__title">Cutest kitty</span>
+          <span class="list__item__subtitle">On the Internet</span></div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
+          <div class="center"><span class="list__item__title">Cutest kitty</span>
+          <span class="list__item__subtitle">On the Internet</span></div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="left"><ons-icon class="list__item__thumbnail" icon="ion-person" size="2x"></ons-icon></div>
+          <div class="center"><span class="list__item__title">Cutest kitty</span>
+          <span class="list__item__subtitle">On the Internet</span></div>
+        </ons-list-item>
       </ons-list>
-
-      <ons-fab position="bottom right" onclick="popOpen('rent-write.html')">
+      <ons-fab position="bottom right" onclick="popOpen('page/rent/rent-write.html')">
         <ons-icon icon="md-edit"></ons-icon>
       </ons-fab>
     </ons-page>
@@ -157,25 +196,23 @@
 </ons-template>
 
 <!-- Location ------------------>
-<ons-dialog id="regi">
+<ons-dialog id="location-list">
   <div style="text-align: center; padding: 10px;">
-    <p>
-      現在位置を登録しますか？
-    </p>
-    <ons-input id="name" modifier="underbar" placeholder="場所名" float></ons-input>
-    <ons-list>
-      <ons-list-header>Location List</ons-list-header>
+      <p>Location List</p>
+    <div align="center" id="location-edit">
+    <input onchange="locationEdit()" type="checkbox" name="on-off-flip" data-on-text="選択" data-off-text="編集" id="on-off-flip" data-role="flipswitch" >
+    </div>
       <ons-list-item tappable>
         <label for="check-1" class="center">
-          <ons-input id="location1" modifier="underbar" placeholder="" float value="友人１"></ons-input>
+          <ons-input id="location1" modifier="underbar" placeholder="" float value="友人"></ons-input>
         </label>
         <label class="right">
-          <ons-input type="checkbox" input-id="check-1"></ons-input>
+          <ons-input type="checkbox" input-id="check-1" hidden></ons-input>
         </label>
       </ons-list-item>
       <ons-list-item tappable>
         <label for="check-2" class="center">
-          <ons-input id="location1" modifier="underbar" placeholder="" float value="友人１"></ons-input>
+          <ons-input id="location1" modifier="underbar" placeholder="" float value="学校"></ons-input>
         </label>
         <label class="right">
           <ons-input type="checkbox" input-id="check-2"></ons-input>
@@ -183,97 +220,59 @@
       </ons-list-item>
       <ons-list-item tappable>
         <label for="check-3" class="center">
-          <ons-input id="location1" modifier="underbar" placeholder="" float value="友人１"></ons-input>
+          <ons-input id="location1" modifier="underbar" placeholder="" float value="実家"></ons-input>
         </label>
         <label class="right">
           <ons-input type="checkbox" input-id="check-3"></ons-input>
         </label>
       </ons-list-item>
     </ons-list>
-    <ons-button onclick="closeDialog('regi')">閉じる</ons-button>
-    <ons-button onclick="closeDialog('regi')">登録</ons-button>
+    <ons-button onclick="closeDialog('location-list')">閉じる</ons-button>
   </div>
-</dons-dialog>
+</ons-dialog>
 
+<ons-dialog id="dialog.html" cancelable>
+<ons-list>
+    <ons-list-item modifier="tappable">
+      Foo
+    </ons-list-item>
+    <ons-list-item modifier="tappable">
+      Bar
+    </ons-list-item>
+    <ons-list-item modifier="tappable">
+      Hoge
+    </ons-list-item>
+  </ons-list>
+</ons-dialog>
 
+<ons-dialog id="location-regi">
+  <div style="text-align: center; padding: 10px;">
+    <p>
+      現在位置を登録しますか？
+    </p>
+    <div><ons-input style="width:200px" id="name" modifier="underbar" placeholder="場所名" float></ons-input></div>
+    <ons-button onclick="closeDialog('location-regi')">閉じる</ons-button>
+    <ons-button onclick="locationRegi('location-regi')">登録</ons-button>
+  </div>
+</ons-dialog>
+
+<ons-dialog id="dialog-2.html" cancelable>
+  <div class="alert-dialog-footer">
+    <ons-list-item tappable onclick="getPhoto2 ()" >写真を撮影する</ons-list-item>
+    <ons-list-item tappable onclick="getPhoto ()" >アルバムから選択する</ons-list-item> 
+  </div>
+</ons-dialog>
+<!-- ゴミ ---------
 <ons-template id="bbs-write.html">
-  <ons-page>
-    <ons-toolbar>
-      <div class="left">
-        <ons-back-button></ons-back-button>
-      </div>
-      <div class="center">
-        記事を投稿する
-      </div>
-    </ons-toolbar>
-    <section style="padding: 8px">
-      <input id="bbs-title" type="text" class="text-input" ng-model="text" placeholder="タイトル" style="display: block; width: 100%">
-    </section>
-    <section style="padding: 10px 30px">
-      <textarea id="bbs-content" class="textarea" ng-model="text2" placeholder="内容" rows="10" cols="10" ></textarea>
-    </section>
-    <section style="padding: 8px 8px">
-      <ons-button modifier="large" onclick="bbsWrite()">記事を投稿</ons-button>
-    </section>
-  </ons-page>
 </ons-template>
 
 <ons-template id="rent-write.html">
-  <ons-page>
-    <ons-toolbar>
-      <div class="left">
-        <ons-back-button></ons-back-button>
-      </div>
-      <div class="center">
-        借りたいものを申請する
-      </div>
-    </ons-toolbar>
-    <section style="padding: 8px">
-      <input id="rent-title" type="text" class="text-input" ng-model="text" placeholder="タイトル" style="display: block; width: 100%">
-    </section>
-    <section style="padding: 10px 30px">
-      <textarea id="rent-content" class="textarea" ng-model="text2" placeholder="内容" rows="10" cols="10" ></textarea>
-    </section>
-    <section style="padding: 8px 8px">
-      <ons-button modifier="large" onclick="rentWrite()">記事を投稿</ons-button>
-    </section>
-  </ons-page>
 </ons-template>
 
 <ons-template id="bbs-content.html">
-  <ons-page>
-    <ons-toolbar>
-      <div class="left">
-        <ons-back-button></ons-back-button>
-      </div>
-      <div class="center">
-        熱田まつり開催！
-      </div>
-    </ons-toolbar>
-    <ons-row align="top">
-      <ons-col>
-        <div class="col">
-          イベント名  熱田まつり（尚武祭）
-          日程	2016年06月05日
-          時間	10:00～　花火は19:40～20：30頃
-          会場名	熱田神宮とその周辺
-          イベント内容	
-          熱田神宮における最も重要で荘厳な祭。10:00より勅使参向のもと、祭典が執り行われ、境内では終日に亘り武道や芸能が奉納される。夕刻より献灯まきわらが点灯され、神宮公園から花火が約1000発（19：40～20：30頃）も上がる。※花火見物は地下鉄「西高蔵」で。
-          熱田まつり奉納行事表
-          交通規制について
-          料金	無料
-          料金詳細	-
-          お問い合わせ先	-
-          TEL	052-671-4153
-          FAX	-
-          ホームページ	http://www.atsutajingu.or.jp/jingu/
-          アクセス	地下鉄「神宮西」・ＪＲ「熱田」・名鉄「神宮前」
-      </ons-col>
-    </ons-row>
-    <section style="margin: 8px 15px 8px 0px">
-      <ons-button onclick=""><ons-icon size="15px" icon="ion-reply"></ons-icon><span style="margin-left:10px">記事に返信</span></ons-button>
-    </section>
-  </ons-page>
+</ons-template>
+
+<ons-template id="rent-content.html">
 </ons-template>
 
 <ons-template id="settings.html">
@@ -289,7 +288,6 @@
       </div>
     </ons-toolbar>
   </ons-page>
-
 </ons-template>
 
 <ons-template id="about.html">
@@ -306,6 +304,6 @@
     </ons-toolbar>
   </ons-page>
 </ons-template>
-
+------------>
 </body>
 </html>
